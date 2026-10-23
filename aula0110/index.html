@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Simples e Áreas Geométricas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .calculadora {
+            background-color: #000000;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            width: 320px;
+        }
+
+        #display {
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            font-size: 22px;
+            text-align: right;
+            padding: 5px 10px;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        /* Seção para os botões de Geometria */
+        .secao-areas {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-geometria {
+            background-color: #285833;
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 10px 4px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+
+        .btn-geometria:hover {
+            background-color: #34495e;
+        }
+
+        /* Grelha principal de botões da calculadora */
+        .botoes {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #0a943f;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background-color: #0a943f
+            color: white;
+        }
+
+        button.operador {
+            background-color: #33ff00;
+            color: white;
+        }
+
+        button.operador:hover {
+            background-color: #02ff17;
+        }
+
+        button.limpar {
+            background-color: #ebe0e0;
+            color: white;
+        }
+
+        button.limpar:hover {
+            background-color: #e9d9d9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculadora">
+        <!-- Ecrã de Visualização -->
+        <input type="text" id="display" readonly placeholder="0">
+
+        <!-- Botões Especiais de Cálculo de Áreas -->
+        <div class="secao-areas">
+            <button class="btn-geometria" onclick="calcularAreaQuadrado()">Área Quadrado</button>
+            <button class="btn-geometria" onclick="calcularAreaRetangulo()">Área Retângulo</button>
+            <button class="btn-geometria" onclick="calcularAreaTriangulo()">Área Triângulo</button>
+        </div>
+
+        <!-- Botões Principais da Calculadora -->
+        <div class="botoes">
+            <button class="limpar" onclick="limparTela()">C</button>
+            <button onclick="adicionarValor('/')" class="operador">/</button>
+            <button onclick="adicionarValor('*')" class="operador">*</button>
+            <button onclick="apagarUltimo()" class="operador">DEL</button>
+
+            <button onclick="adicionarValor('7')">7</button>
+            <button onclick="adicionarValor('8')">8</button>
+            <button onclick="adicionarValor('9')">9</button>
+            <button onclick="adicionarValor('-')" class="operador">-</button>
+
+            <button onclick="adicionarValor('4')">4</button>
+            <button onclick="adicionarValor('5')">5</button>
+            <button onclick="adicionarValor('6')">6</button>
+            <button onclick="adicionarValor('+')" class="operador">+</button>
+
+            <button onclick="adicionarValor('1')">1</button>
+            <button onclick="adicionarValor('2')">2</button>
+            <button onclick="adicionarValor('3')">3</button>
+            <button onclick="calcularResult()" class="operador" style="grid-row: span 2; height: 100%;">=</button>
+
+            <button onclick="adicionarValor('0')" style="grid-column: span 2;">0</button>
+            <button onclick="adicionarValor('.')">.</button>
+        </div>
+    </div>
+
+    <!-- Lógica JavaScript integrada -->
+    <script>
+        const display = document.getElementById('display');
+
+        function adicionarValor(valor) {
+            display.value += valor;
+        }
+
+        function limparTela() {
+            display.value = '';
+        }
+
+        function apagarUltimo() {
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calcularResult() {
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Erro';
+            }
+        }
+
+        /* --- Funções para cálculo de áreas geométricas --- */
+
+        // Fórmula: Área = lado²
+        function calcularAreaQuadrado() {
+            const lado = prompt("Informe o valor do Lado do Quadrado:");
+            if (lado && !isNaN(lado)) {
+                const area = Number(lado) * Number(lado);
+                display.value = `Área Q.: ${area}`;
+            } else if (lado !== null) {
+                alert("Por favor, insira um número válido.");
+            }
+        }
+
+        // Fórmula: Área = base * altura
+        function calcularAreaRetangulo() {
+            const base = prompt("Informe o valor da Base do Retângulo:");
+            if (base && !isNaN(base)) {
+                const altura = prompt("Informe o valor da Altura do Retângulo:");
+                if (altura && !isNaN(altura)) {
+                    const area = Number(base) * Number(altura);
+                    display.value = `Área R.: ${area}`;
+                } else if (altura !== null) {
+                    alert("Por favor, insira um número válido para a altura.");
+                }
+            } else if (base !== null) {
+                alert("Por favor, insira um número válido para a base.");
+            }
+        }
+
+        // Fórmula: Área = (base * altura) / 2
+        function calcularAreaTriangulo() {
+            const base = prompt("Informe o valor da Base do Triângulo:");
+            if (base && !isNaN(base)) {
+                const altura = prompt("Informe o valor da Altura do Triângulo:");
+                if (altura && !isNaN(altura)) {
+                    const area = (Number(base) * Number(altura)) / 2;
+                    display.value = `Área T.: ${area}`;
+                } else if (altura !== null) {
+                    alert("Por favor, insira um número válido para a altura.");
+                }
+            } else if (base !== null) {
+                alert("Por favor, insira um número válido para a base.");
+            }
+        }
+    </script>
+</body>
+</html>
